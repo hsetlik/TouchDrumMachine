@@ -14,6 +14,7 @@
 #define DEFAULT_TEMPO 120
 #define DEFAULT_LENGTH 16
 #define DEFAULT_TRACKS 8
+#define GRID_WIDTH 4
 
 
 struct StepData

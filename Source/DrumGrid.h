@@ -32,7 +32,8 @@ public:
     }
     void toggleCurrentStep()
     {
-        track->toggleNote(track->getCurrentStep());
+        if(track != nullptr)
+            track->toggleNote(track->getCurrentStep());
     }
 private:
     juce::Colour color;

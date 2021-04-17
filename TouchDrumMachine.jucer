@@ -3,6 +3,17 @@
 <JUCERPROJECT id="oUIDX9" name="TouchDrumMachine" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="ZhQQr4" name="TouchDrumMachine">
+    <GROUP id="{51B2EBA3-B60C-3025-65E1-14DB4DC62766}" name="GUIAssets">
+      <FILE id="DTZKAk" name="clap@0.5x.png" compile="0" resource="1" file="GUIAssets/clap@0.5x.png"/>
+      <FILE id="SxGAWJ" name="clave@0.5x.png" compile="0" resource="1" file="GUIAssets/clave@0.5x.png"/>
+      <FILE id="gqWWVq" name="closedHat@0.5x.png" compile="0" resource="1"
+            file="GUIAssets/closedHat@0.5x.png"/>
+      <FILE id="OxB13g" name="kick1@0.5x.png" compile="0" resource="1" file="GUIAssets/kick1@0.5x.png"/>
+      <FILE id="VEJ1S9" name="kick2@0.5x.png" compile="0" resource="1" file="GUIAssets/kick2@0.5x.png"/>
+      <FILE id="j0UfFi" name="openHat@0.5x.png" compile="0" resource="1"
+            file="GUIAssets/openHat@0.5x.png"/>
+      <FILE id="YZFGlG" name="snare@0.5x.png" compile="0" resource="1" file="GUIAssets/snare@0.5x.png"/>
+    </GROUP>
     <GROUP id="{E974A59E-E5AA-B104-F80E-B9C3C1C3B4A6}" name="src">
       <FILE id="EY0o5b" name="RgbColor.h" compile="0" resource="0" file="Source/RgbColor.h"/>
       <GROUP id="{11960657-0B41-8FB0-D9BB-740281C794ED}" name="Processing">
@@ -23,6 +34,7 @@
       <FILE id="yHyHsh" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
     </GROUP>
+    <FILE id="DKRXVN" name="playButton.png" compile="0" resource="1" file="GUIAssets/playButton.png"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <EXPORTFORMATS>
