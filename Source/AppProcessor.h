@@ -19,12 +19,26 @@
 
 struct StepData
 {
+public:
     StepData(int start, int length) : startSubdiv(start), lengthSubdivs(length), hasNote(false)
     {
     }
-    int startSubdiv;
-    int lengthSubdivs;
-    bool hasNote;
+    int getStartSubdiv() {return startSubdiv.load();}
+    int getLengthSubdivs() {return lengthSubdivs.load();}
+    bool getHasNote()
+    {
+        if(hasNote.load() > 0)
+            return true;
+        return false;
+    }
+    void setHasNote(bool shouldHaveNote)
+    {
+        hasNote = (shouldHaveNote) ? 1 : 0;
+    }
+private:
+    std::atomic<int> startSubdiv;
+    std::atomic<int> lengthSubdivs;
+    std::atomic<int> hasNote;
 };
 
 class TrackData
@@ -32,7 +46,7 @@ class TrackData
 public:
     TrackData(int idx, int length) : index(idx), lengthSubdivs(length), currentSubdiv(0)
     {
-        int numSteps = lengthSubdivs / MAX_SUBDIV;
+        int numSteps = lengthSubdivs.load() / MAX_SUBDIV;
         for(int i = 0; i < numSteps; ++i)
         {
             steps.add(new StepData(i * MAX_SUBDIV, MAX_SUBDIV));
@@ -43,7 +57,7 @@ public:
         currentSubdiv = subdiv;
         for(auto s : steps)
         {
-            if(s->startSubdiv <= currentSubdiv && s->startSubdiv + s->lengthSubdivs > currentSubdiv)
+            if(s->getStartSubdiv() <= currentSubdiv && s->getStartSubdiv() + s->getLengthSubdivs() > currentSubdiv)
             {
                 currentStep = s;
                 break;
@@ -56,12 +70,17 @@ public:
     }
     void toggleNote(StepData* step)
     {
-        step->hasNote = !step->hasNote;
+        step->setHasNote(!step->getHasNote());
+    }
+    void toggleNote(int index)
+    {
+        auto* step = steps[index];
+        step->setHasNote(!step->getHasNote());
     }
     juce::OwnedArray<StepData> steps;
     std::atomic<StepData*> currentStep;
     int index;
-    int lengthSubdivs;
+    std::atomic<int> lengthSubdivs;
     int currentSubdiv;
 };
 

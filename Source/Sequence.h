@@ -15,8 +15,9 @@
 class StepButton : public juce::ShapeButton
 {
 public:
-    StepButton() :
-    juce::ShapeButton("stepButton", UXPalette::darkRed, UXPalette::darkRed, UXPalette::lightRed)
+    StepButton(StepData* stp) :
+    juce::ShapeButton("stepButton", UXPalette::darkRed, UXPalette::darkRed, UXPalette::lightRed),
+    step(stp)
     {
         setClickingTogglesState(true);
     }
@@ -30,28 +31,50 @@ public:
     void toggle()
     {
         hasNote = !hasNote;
+        step->setHasNote(hasNote);
         if(hasNote)
             color = UXPalette::lightRed;
         else
             color = UXPalette::darkGray3;
     }
+    StepData* step;
+    int widthSubDivs;
+    int index;
 };
+
+enum class LabelType
+{
+    kick1, kick2, snare, closedHat, openHat, clave, clap
+};
+
+static juce::StringArray LabelTypeStrings("kick1", "kick2", "snare", "closedHat", "openHat",  "clave", "clap");
 
 class TrackLabelImage : public juce::Component
 {
 public:
-    TrackLabelImage(juce::Image& img);
-    void resized() override;
+    TrackLabelImage(LabelType type= LabelType::kick1) : labelType(type)
+    {
+         setImage(labelType);
+    }
+    void resized() override
+    {
+    }
     void paint(juce::Graphics& g) override;
+    void setImage(LabelType newType);
+    juce::Image image;
+private:
+    LabelType labelType;
 };
 
-class SequenceTrack : public juce::Component
+class SequenceTrack : public juce::Component, juce::Button::Listener
 {
 public:
     SequenceTrack(TrackData* trk);
+    void buttonClicked(juce::Button* b) override;
+    void resized() override;
 private:
     TrackData* track;
     TrackLabelImage label;
     juce::OwnedArray<StepButton> stepButtons;
-    
+    std::vector<juce::Rectangle<int>> buttonAreas;
 };
